@@ -1,0 +1,345 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+
+  <!--
+    ROBIX V2 - 4 Wheel Differential Drive Mobile Robot
+    Coordinate convention:
+      +X = forward
+      +Y = left
+      +Z = upward
+
+    Nominal dimensions used from the supplied design:
+      Deck: 400 x 300 x 3 mm
+      Wheel diameter: 83 mm
+      Wheel width: 30 mm
+      Deck levels: 0, 100, 200 mm
+      Lidar: 97 mm diameter x 40 mm
+    All dimensions are in metres.
+  -->
+
+  <!-- =========================
+       BASE / LOWER DECK
+       ========================= -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0.0015"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.0094" ixy="0" ixz="0"
+               iyy="0.0142" iyz="0" izz="0.0208"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.0015"/>
+      <geometry>
+        <box size="0.400 0.300 0.003"/>
+      </geometry>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.0015"/>
+      <geometry>
+        <box size="0.400 0.300 0.003"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- =========================
+       MIDDLE DECK
+       ========================= -->
+  <link name="middle_deck">
+    <inertial>
+      <origin xyz="0 0 0.0015"/>
+      <mass value="0.8"/>
+      <inertia ixx="0.0075" ixy="0" ixz="0"
+               iyy="0.0110" iyz="0" izz="0.0167"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.0015"/>
+      <geometry>
+        <box size="0.400 0.300 0.003"/>
+      </geometry>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.0015"/>
+      <geometry>
+        <box size="0.400 0.300 0.003"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="middle_deck_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="middle_deck"/>
+    <origin xyz="0 0 0.100"/>
+  </joint>
+
+  <!-- =========================
+       UPPER DECK
+       ========================= -->
+  <link name="upper_deck">
+    <inertial>
+      <origin xyz="0 0 0.0015"/>
+      <mass value="0.8"/>
+      <inertia ixx="0.0075" ixy="0" ixz="0"
+               iyy="0.0110" iyz="0" izz="0.0167"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.0015"/>
+      <geometry>
+        <box size="0.400 0.300 0.003"/>
+      </geometry>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.0015"/>
+      <geometry>
+        <box size="0.400 0.300 0.003"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="upper_deck_joint" type="fixed">
+    <parent link="middle_deck"/>
+    <child link="upper_deck"/>
+    <origin xyz="0 0 0.100"/>
+  </joint>
+
+  <!-- =========================
+       LEFT FRONT WHEEL
+       ========================= -->
+  <link name="left_front_wheel">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00031" ixy="0" ixz="0"
+               iyy="0.00062" iyz="0" izz="0.00031"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.0415" length="0.030"/>
+      </geometry>
+    <material name="black">
+      <color rgba="0.02 0.02 0.02 1.0"/>
+    </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.0415" length="0.030"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_front_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_front_wheel"/>
+    <origin xyz="0.140 0.165 0.0415"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="2.0" velocity="60.0"/>
+    <dynamics damping="0.05" friction="0.01"/>
+  </joint>
+
+  <!-- =========================
+       LEFT REAR WHEEL
+       ========================= -->
+  <link name="left_rear_wheel">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00031" ixy="0" ixz="0"
+               iyy="0.00062" iyz="0" izz="0.00031"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.0415" length="0.030"/>
+      </geometry>
+    <material name="black">
+      <color rgba="0.02 0.02 0.02 1.0"/>
+    </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.0415" length="0.030"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_rear_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_rear_wheel"/>
+    <origin xyz="-0.140 0.165 0.0415"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="2.0" velocity="60.0"/>
+    <dynamics damping="0.05" friction="0.01"/>
+  </joint>
+
+  <!-- =========================
+       RIGHT FRONT WHEEL
+       ========================= -->
+  <link name="right_front_wheel">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00031" ixy="0" ixz="0"
+               iyy="0.00062" iyz="0" izz="0.00031"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.0415" length="0.030"/>
+      </geometry>
+    <material name="black">
+      <color rgba="0.02 0.02 0.02 1.0"/>
+    </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.0415" length="0.030"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_front_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_front_wheel"/>
+    <origin xyz="0.140 -0.165 0.0415"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="2.0" velocity="60.0"/>
+    <dynamics damping="0.05" friction="0.01"/>
+  </joint>
+
+  <!-- =========================
+       RIGHT REAR WHEEL
+       ========================= -->
+  <link name="right_rear_wheel">
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00031" ixy="0" ixz="0"
+               iyy="0.00062" iyz="0" izz="0.00031"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.0415" length="0.030"/>
+      </geometry>
+    <material name="black">
+      <color rgba="0.02 0.02 0.02 1.0"/>
+    </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
+      <geometry>
+        <cylinder radius="0.0415" length="0.030"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_rear_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_rear_wheel"/>
+    <origin xyz="-0.140 -0.165 0.0415"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="2.0" velocity="60.0"/>
+    <dynamics damping="0.05" friction="0.01"/>
+  </joint>
+
+  <!-- =========================
+       LIDAR
+       ========================= -->
+  <link name="lidar_link">
+    <inertial>
+      <origin xyz="0 0 0.020"/>
+      <mass value="0.20"/>
+      <inertia ixx="0.00025" ixy="0" ixz="0"
+               iyy="0.00025" iyz="0" izz="0.00045"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.020"/>
+      <geometry>
+        <cylinder radius="0.0485" length="0.040"/>
+      </geometry>
+    <material name="blue">
+      <color rgba="0.0 0.25 1.0 1.0"/>
+    </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.020"/>
+      <geometry>
+        <cylinder radius="0.0485" length="0.040"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent link="upper_deck"/>
+    <child link="lidar_link"/>
+    <origin xyz="-0.095 0 0.003"/>
+  </joint>
+
+  <!-- =========================
+       LIDAR SENSOR FRAME
+       ========================= -->
+  <link name="lidar_frame"/>
+
+  <joint name="lidar_frame_joint" type="fixed">
+    <parent link="lidar_link"/>
+    <child link="lidar_frame"/>
+    <origin xyz="0 0 0.040"/>
+  </joint>
+
+  <!-- Gazebo visual materials -->
+  <gazebo reference="base_link">
+    <material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="middle_deck">
+    <material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="upper_deck">
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <gazebo reference="left_front_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  <gazebo reference="left_rear_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  <gazebo reference="right_front_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  <gazebo reference="right_rear_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="lidar_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+</robot>
